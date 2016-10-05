@@ -110,10 +110,10 @@ function vendor() {
   true
 }
 
-speak "------> Vendoring binaries"
+speak "Vendoring binaries"
 vendor "https://s3.amazonaws.com/mojodna-heroku/$STACK/pgsql-9.3.5-1.tar.gz" "$BUILD_DIR/vendor/pgsql"
 
-speak "------> Configuring build environment"
+speak "Configuring build environment"
 cat <<EOF > $BUILDPACK_DIR/export
 export PATH="$PATH:\$PATH"
 export LD_LIBRARY_PATH="\$LD_LIBRARY_PATH:$LD_LIBRARY_PATH"
@@ -123,7 +123,7 @@ export CPPPATH="\$CPPPATH:$CPPPATH"
 export CPATH="\$CPATH:$CPATH"
 EOF
 
-speak "------> Building runtime environment"
+speak "Building runtime environment"
 mkdir -p $BUILD_DIR/.profile.d
 
 cat <<EOF > $BUILD_DIR/.profile.d/pgsql.sh
@@ -134,6 +134,25 @@ export PKG_CONFIG_PATH="\$PKG_CONFIG_PATH:${PKG_CONFIG_PATH//$BUILD_DIR//app}"
 export CPPPATH="\$CPPPATH:${CPPPATH//$BUILD_DIR//app}"
 export CPATH="\$CPATH:${CPATH//$BUILD_DIR//app}"
 EOF
+
+########## heroku toolbelt ##############################################
+
+speak "Installing heroku toolbelt"
+
+VENDOR_DIR="vendor"
+DOWNLOAD_URL="http://assets.heroku.com.s3.amazonaws.com/heroku-client/heroku-client.tgz"
+
+speak "DOWNLOAD_URL = " $DOWNLOAD_URL
+
+cd $BUILD_DIR
+mkdir -p $VENDOR_DIR
+cd $VENDOR_DIR
+curl -L --silent $DOWNLOAD_URL | tar xz
+
+speak "exporting PATH"
+PROFILE_PATH="$BUILD_DIR/.profile.d/heroku-client.sh"
+mkdir -p $(dirname $PROFILE_PATH)
+speak 'export PATH="$PATH:vendor/heroku-client/bin"' >> $PROFILE_PATH
 
 ########## project build ###########################################
 speak "Running stack"
