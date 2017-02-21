@@ -26,6 +26,11 @@ if [ -d "$ENV_DIR" ]; then
   done
 fi
 
+if [ -z "$VINE" ]; then
+  speak "[ERROR] -  VINE environment variable must be defined!"
+  exit 2
+fi
+
 WORK_DIR=/app
 mkdir -p "$WORK_DIR/vendor"
 mkdir -p "$WORK_DIR/vendor/bin"
