@@ -158,7 +158,7 @@ speak 'export PATH="$PATH:vendor/heroku-client/bin"' >> $PROFILE_PATH
 speak "Running stack"
 cd "$BUILD_DIR"
 stack setup
-stack build --copy-bins
+stack build $VINE --copy-bins
 
 # Set context environment variables.
 set-env PATH "$WORK_DIR/.local/bin:$PATH"
@@ -170,5 +170,8 @@ mkdir -p "$BUILD_DIR/vendor"
 mkdir -p "$BUILD_DIR/.local"
 mv "$WORK_DIR/vendor/ghc-libs" "$BUILD_DIR/vendor"
 mv "$WORK_DIR/.local/bin" "$BUILD_DIR/.local"
+
+speak "Making procfile available"
+cp ./$Vine/Procfile ./Procfile
 
 speak "Finished!"
