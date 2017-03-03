@@ -26,11 +26,6 @@ if [ -d "$ENV_DIR" ]; then
   done
 fi
 
-if [ -z "$VINE" ]; then
-  speak "[ERROR] -  VINE environment variable must be defined!"
-  exit 2
-fi
-
 WORK_DIR=/app
 mkdir -p "$WORK_DIR/vendor"
 mkdir -p "$WORK_DIR/vendor/bin"
@@ -163,7 +158,7 @@ speak 'export PATH="$PATH:vendor/heroku-client/bin"' >> $PROFILE_PATH
 speak "Running stack"
 cd "$BUILD_DIR"
 stack setup
-stack build $VINE --copy-bins
+stack build --copy-bins
 
 # Set context environment variables.
 set-env PATH "$WORK_DIR/.local/bin:$PATH"
@@ -175,8 +170,5 @@ mkdir -p "$BUILD_DIR/vendor"
 mkdir -p "$BUILD_DIR/.local"
 mv "$WORK_DIR/vendor/ghc-libs" "$BUILD_DIR/vendor"
 mv "$WORK_DIR/.local/bin" "$BUILD_DIR/.local"
-
-speak "Making procfile available"
-cp "$VINE/Procfile" ./Procfile
 
 speak "Finished!"
