@@ -116,7 +116,7 @@ function vendor() {
 }
 
 speak "Vendoring binaries"
-vendor "https://s3.amazonaws.com/mojodna-heroku/$STACK/pgsql-9.3.5-1.tar.gz" "$BUILD_DIR/vendor/pgsql"
+vendor "https://s3.amazonaws.com/cv-clone/pg-9.6.2.tgz" "$BUILD_DIR/vendor/pgsql"
 
 speak "Configuring build environment"
 cat <<EOF > $BUILDPACK_DIR/export
