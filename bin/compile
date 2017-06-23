@@ -94,59 +94,6 @@ if [ -v GH_AUTH ]; then
   sed -i 's_github.com/collegevine_'"$GH_AUTH"'@github.com/collegevine_' "$BUILD_DIR/stack.yaml"
 fi
 
-########## postgres ##############################################
-
-speak "Installing PostgreSQL"
-
-function vendor() {
-  binary="$1"
-  path="$2"
-
-  mkdir -p $path
-  curl $binary -s -o - | tar xz -C $path -f -
-
-  [ -d "$path/bin" ] && export PATH=$path/bin:$PATH
-  export CPPPATH="$path/include:$CPPPATH"
-  export CPATH="$path/include:$CPATH"
-  export LIBRARY_PATH="$path/lib:$LIBRARY_PATH"
-  export LD_LIBRARY_PATH="$path/lib:$LD_LIBRARY_PATH"
-  [ -d "$path/lib/pkgconfig" ] && export PKG_CONFIG_PATH="$path/lib/pkgconfig:$PKG_CONFIG_PATH"
-
-  true
-}
-
-speak "Vendoring binaries"
-
-if [ -z "$PG_96" ]; 
-    then
-        vendor "https://s3.amazonaws.com/cv-clone/pg-9.6.2.tgz" "$BUILD_DIR/vendor/pgsql"
-    else
-        vendor "https://s3.amazonaws.com/mojodna-heroku/$STACK/pgsql-9.3.5-1.tar.gz" "$BUILD_DIR/vendor/pgsql"
-fi
-
-
-speak "Configuring build environment"
-cat <<EOF > $BUILDPACK_DIR/export
-export PATH="$PATH:\$PATH"
-export LD_LIBRARY_PATH="\$LD_LIBRARY_PATH:$LD_LIBRARY_PATH"
-export LIBRARY_PATH="\$LIBRARY_PATH:$LIBRARY_PATH"
-export PKG_CONFIG_PATH="\$PKG_CONFIG_PATH:$PKG_CONFIG_PATH"
-export CPPPATH="\$CPPPATH:$CPPPATH"
-export CPATH="\$CPATH:$CPATH"
-EOF
-
-speak "Building runtime environment"
-mkdir -p $BUILD_DIR/.profile.d
-
-cat <<EOF > $BUILD_DIR/.profile.d/pgsql.sh
-export PATH="${PATH//$BUILD_DIR//app}:\$PATH"
-export LD_LIBRARY_PATH="\$LD_LIBRARY_PATH:${LD_LIBRARY_PATH//$BUILD_DIR//app}"
-export LIBRARY_PATH="\$LIBRARY_PATH:${LIBRARY_PATH//$BUILD_DIR//app}"
-export PKG_CONFIG_PATH="\$PKG_CONFIG_PATH:${PKG_CONFIG_PATH//$BUILD_DIR//app}"
-export CPPPATH="\$CPPPATH:${CPPPATH//$BUILD_DIR//app}"
-export CPATH="\$CPATH:${CPATH//$BUILD_DIR//app}"
-EOF
-
 ########## heroku toolbelt ##############################################
 
 speak "Installing heroku toolbelt"
