@@ -140,14 +140,14 @@ EOF
 speak "Installing heroku toolbelt"
 
 VENDOR_DIR="vendor"
-DOWNLOAD_URL="http://assets.heroku.com.s3.amazonaws.com/heroku-client/heroku-client.tgz"
+DOWNLOAD_URL="https://cli-assets.heroku.com/heroku-cli/channels/stable/heroku-cli-linux-x64.tar.gz"
 
-speak "DOWNLOAD_URL = " $DOWNLOAD_URL
+speak "DOWNLOAD_URL = $DOWNLOAD_URL"
 
 cd $BUILD_DIR
-mkdir -p $VENDOR_DIR
-cd $VENDOR_DIR
-curl -L --silent $DOWNLOAD_URL | tar xz
+mkdir -p "$VENDOR_DIR/heroku-client"
+cd "$VENDOR_DIR/heroku-client"
+curl -L --silent $DOWNLOAD_URL | tar xz --strip 1
 
 speak "exporting PATH"
 PROFILE_PATH="$BUILD_DIR/.profile.d/heroku-client.sh"
