@@ -140,7 +140,7 @@ EOF
 speak "Installing heroku toolbelt"
 
 VENDOR_DIR="vendor"
-DOWNLOAD_URL="https://cli-assets.heroku.com/heroku-cli/channels/stable/heroku-cli-linux-x64.tar.gz"
+DOWNLOAD_URL="http://cli-assets.heroku.com/heroku-cli/channels/stable/heroku-cli-linux-x64.tar.gz"
 
 speak "DOWNLOAD_URL = $DOWNLOAD_URL"
 
