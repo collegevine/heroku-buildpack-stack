@@ -101,7 +101,7 @@ speak "Installing heroku toolbelt"
 VENDOR_DIR="vendor"
 DOWNLOAD_URL="http://assets.heroku.com.s3.amazonaws.com/heroku-client/heroku-client.tgz"
 
-speak "DOWNLOAD_URL = " $DOWNLOAD_URL
+speak "DOWNLOAD_URL = $DOWNLOAD_URL"
 
 cd $BUILD_DIR
 mkdir -p $VENDOR_DIR
