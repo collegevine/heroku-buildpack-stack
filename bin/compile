@@ -125,12 +125,12 @@ set-default-env LIBRARY_PATH /app/vendor/ghc-libs:/usr/lib
 set-default-env LD_LIBRARY_PATH /app/vendor/ghc-libs:/usr/lib
 
 speak "Making stack binaries available"
-mkdir -p "$BUILD_DIR/vendor"
-mkdir -p "$BUILD_DIR/.local"
-mv "$WORK_DIR/vendor/ghc-libs" "$BUILD_DIR/vendor"
-mv "$WORK_DIR/.local/bin" "$BUILD_DIR/.local"
+# mkdir -p "$BUILD_DIR/vendor"
+# mkdir -p "$BUILD_DIR/.local"
+# mv "$WORK_DIR/vendor/ghc-libs" "$BUILD_DIR/vendor"
+# mv "$WORK_DIR/.local/bin" "$BUILD_DIR/.local"
 
-speak "Making procfile available"
-cp "$VINE/Procfile" ./Procfile
+# speak "Making procfile available"
+# cp "$VINE/Procfile" ./Procfile
 
 speak "Finished!"
